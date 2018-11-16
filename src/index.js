@@ -6,6 +6,7 @@ import config from "recompose/rxjsObservableConfig"
 import boxStyles from "./BoxStyles";
 import FlexBox from "./layout/FlexBox";
 import Button from "./atoms/button/Button";
+import ToggleGroup from "./atoms/toggleButton/ToggleGroup";
 import SimpleInput from "./atoms/simpleInput/SimpleInput";
 import Spinner from "./atoms/spinner/Spinner";
 import SpinnerWithText from "./atoms/spinner/SpinnerWithText";
@@ -48,7 +49,7 @@ import ProofOfIncome from "./molecules/proofOfIncome/ProofOfIncome";
 import {proofOfIncomeCaptured} from "./molecules/proofOfIncome/ProofOfIncomeEpic";
 
 const layout = {FlexBox};
-const atoms = {Button, ButtonNoHover, SimpleInput, Spinner, SpinnerWithText};
+const atoms = {Button, ButtonNoHover, SimpleInput, Spinner, SpinnerWithText, ToggleGroup};
 const molecules = {FirstName, LastName, CellNumber, IdNumber, EmailAddress, AddressInput, MonthlyBond, MonthlyRental,
   Maintenance, NumberOfDependants, GrossIncome, NetIncome, LoanAmount, PaymentPeriod, MaritalStatus, JobType, UnitNumber,
   EmploymentType, GrantBureauConsentButton, ProofOfIdentity, SelfHeadshot, ProofOfPresence, Map, AcceptTandCs,
