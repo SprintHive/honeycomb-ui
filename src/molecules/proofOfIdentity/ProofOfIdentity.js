@@ -1,23 +1,25 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
 import PropTypes from "prop-types";
-import {compose, setDisplayName, withState} from "recompose";
+import {compose, setDisplayName, setPropTypes, withProps, withState} from "recompose";
 import {nonOptimalStates} from "../../hoc/nonOptimalStates";
 import FlexBox from "../../layout/FlexBox";
-import ProofOfIdentityToggle, {DRIVERS_LICENCE, ID_BOOK, ID_CARD} from "./ProofOfIdentityToggle";
+import ProofOfIdentityToggle from "./ProofOfIdentityToggle";
 import UploadProofOfIdentity from "./UploadProofOfIdentity";
 import SuccessMessage from "../upload/SuccessMessage";
 
-const trustedHeadShotCaptured = ({idv}) => idv.trustedSourceHeadshot.status === "Captured";
+export const DRIVERS_LICENCE = {label: "Drivers Licence", value: "drivers-license-reverse"};
+export const ID_CARD = {label: "ID Card", value: "id-card-front"};
+export const ID_BOOK = {label: "ID Book", value: "id-book"};
+
+const trustedHeadShotCaptured = ({identityVerification: idv}) => idv.trustedSourceHeadshot
+  && idv.trustedSourceHeadshot.status === "Captured";
+
 const showSuccessMessage = ({stepKey, componentKey, wizardStepStatusDispatcher}) =>
-  <SuccessMessage{...{stepKey, componentKey, wizardStepStatusDispatcher,
-    message: "Proof of identity has been captured successfully."}}/>;
+  <SuccessMessage{...{
+    stepKey, componentKey, wizardStepStatusDispatcher,
+    message: "Proof of identity has been captured successfully."
+  }}/>;
 
 const UploadButton = props =>
   <FlexBox column>
@@ -68,11 +70,21 @@ const renderUI = props => {
 
 const enhance = compose(
   setDisplayName("ProofOfIdentity"),
-  withState("proofOfIdentityType", "proofOfIdentityChanged", DRIVERS_LICENCE.value),
+  withProps(props => {
+    // only if we don't find any identityTypes setup some defaults
+    if (!props.identityTypes) {
+      return {identityTypes: [DRIVERS_LICENCE, ID_CARD, ID_BOOK]}
+    }
+  }),
+  setPropTypes({
+    identityTypes: PropTypes.array.isRequired
+  }),
+  withState("proofOfIdentityType", "proofOfIdentityChanged", (props) => {
+    return props.identityTypes[0].value;
+  }),
   nonOptimalStates([
-    {when: trustedHeadShotCaptured,  render: showSuccessMessage}
+    {when: trustedHeadShotCaptured, render: showSuccessMessage}
   ])
-
 );
 
 const ProofOfIdentity = (props) => {

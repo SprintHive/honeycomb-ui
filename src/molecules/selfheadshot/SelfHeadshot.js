@@ -1,9 +1,3 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
 import {compose, setDisplayName, withProps} from "recompose";
@@ -16,10 +10,10 @@ import Button from "../../atoms/button/Button";
 import {evidenceCaptureRetry} from "../upload/UploadActions";
 
 const renderUploadEvidence = props => {
-  const {idv, dispatch, componentKey} = props;
-  const _props = {idvId: idv.identityVerificationId, componentKey, dispatch};
-  const {status, errorCode} = idv[_props.componentKey];
-  _props.idvStatus = idv.status.key;
+  const {identityVerification, dispatch, componentKey} = props;
+  const _props = {idvId: identityVerification.identityVerificationId, componentKey, dispatch};
+  const {status, errorCode} = identityVerification[_props.componentKey];
+  _props.idvStatus = identityVerification.status.key;
   _props.status = status;
   _props.errorMessage = errorCode && errorCodeMapper(errorCode);
 
@@ -47,8 +41,8 @@ const renderCaptureEvidence = props => {
 };
 
 const renderErrors = props => {
-  const {idv, componentKey, entityKey, entityId} = props;
-  const {errorCode} = idv[componentKey];
+  const {identityVerification, componentKey, entityKey, entityId} = props;
+  const {errorCode} = identityVerification[componentKey];
 
   return (
     <FlexBox style={{marginTop: 10}} column centered>

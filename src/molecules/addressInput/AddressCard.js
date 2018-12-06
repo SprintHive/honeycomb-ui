@@ -13,8 +13,8 @@ const enhance = compose(
   setDisplayName("AddressCard"),
   withHandlers({
     onClick: props => () => {
-      const {leadId, placeId} = props;
-      props.done && props.done({leadId, placeId});
+      const {applicationId, placeId} = props;
+      props.done && props.done({applicationId, placeId});
     }
   })
 );

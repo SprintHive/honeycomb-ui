@@ -47,6 +47,7 @@ import ButtonNoHover from "./atoms/toggleButton/ButtonNoHover";
 import UnitNumber from "./molecules/unitNumber/UnitNumber";
 import ProofOfIncome from "./molecules/proofOfIncome/ProofOfIncome";
 import {proofOfIncomeCaptured} from "./molecules/proofOfIncome/ProofOfIncomeEpic";
+import {DRIVERS_LICENCE, ID_BOOK, ID_CARD} from "./molecules/proofOfIdentity/ProofOfIdentity";
 
 const layout = {FlexBox};
 const atoms = {Button, ButtonNoHover, SimpleInput, Spinner, SpinnerWithText, ToggleGroup};
@@ -65,6 +66,12 @@ setObservableConfig(config);
 
 const hocs = {withComponentStatusChanged, nonOptimalStates};
 
+const identityTypes = {
+  driversLicense: DRIVERS_LICENCE,
+  idCard: ID_CARD,
+  idBook: ID_BOOK
+};
+
 export default  {
   monthlyExpenseEpics,
   addressInputEpics,
@@ -78,5 +85,6 @@ export default  {
   organisms,
   boxStyles,
   hocs,
+  identityTypes,
   themeManager: {loadStyle, getStyle, withStyle}
 };

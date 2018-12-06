@@ -1,10 +1,3 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
-
 import React from "react";
 import PropTypes from "prop-types";
 import {compose, setDisplayName, setPropTypes, withHandlers, withProps} from "recompose";
@@ -59,11 +52,11 @@ const enhance = compose(
   withHandlers({
     done: (props) => (newValue) => {
       const {componentStatusChanged, dispatch, endpoint, authToken, entity, entityName, entityIdName, propertyName,
-        innerPropertyName, initialValue} = props;
+        innerPropertyName, initialValue, productId} = props;
       const entityId = entity[entityIdName];
       const oldValue = entity[propertyName];
       initialValue !== newValue && dispatch(propertyChanged({entityId, entityName, propertyName, innerPropertyName,
-        endpoint, authToken, newValue, oldValue}));
+        endpoint, authToken, newValue, oldValue, productId}));
       componentStatusChanged && componentStatusChanged("captured");
     },
     pending: ({componentStatusChanged}) => () => {

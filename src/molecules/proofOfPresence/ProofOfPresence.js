@@ -1,9 +1,3 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
 import {compose, setDisplayName, withProps} from "recompose";
@@ -40,10 +34,10 @@ const getPopRequirement = proofOfPresenceRequirement => {
 
 
 const renderUploadEvidence = props => {
-  const {idv, dispatch, componentKey} = props;
-  const _props = {idvId: idv.identityVerificationId, componentKey, dispatch};
-  const {status, errorCode, proofOfPresenceRequirement} = idv[componentKey];
-  _props.idvStatus = idv.status.key;
+  const {identityVerification, dispatch, componentKey} = props;
+  const _props = {identityVerificationId: identityVerification.identityVerificationId, componentKey, dispatch};
+  const {status, errorCode, proofOfPresenceRequirement} = identityVerification[componentKey];
+  _props.idvStatus = identityVerification.status.key;
   _props.status = status;
   _props.errorMessage = errorCode && errorCodeMapper(errorCode);
 
@@ -66,8 +60,8 @@ const style = {
 
 
 const renderErrors = props => {
-  const {idv, componentKey, entityKey, entityId} = props;
-  const {errorCode} = idv[componentKey];
+  const {identityVerification, componentKey, entityKey, entityId} = props;
+  const {errorCode} = identityVerification[componentKey];
 
   return (
     <FlexBox style={style.container} column centered>
@@ -80,8 +74,8 @@ const renderErrors = props => {
 };
 
 const renderCaptureEvidence = props => {
-  const {idv, componentKey, showTitle} = props;
-  const {proofOfPresenceRequirement} = idv[componentKey];
+  const {identityVerification, componentKey, showTitle} = props;
+  const {proofOfPresenceRequirement} = identityVerification[componentKey];
 
   return (
     <FlexBox column>

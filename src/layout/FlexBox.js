@@ -1,6 +1,7 @@
 import React from 'react'
 import {compose, setDisplayName} from 'recompose'
 import Radium from 'radium'
+import {blueBox, greenBox, orangeBox, redBox, yellowBox} from "../BoxStyles";
 
 export const flexStyle = {
   base: {
@@ -60,7 +61,7 @@ const enhance = compose(
 );
 
 const FlexBox = enhance(({style, column, centered, left, right, wrap, item, flexGrow, margin, marginBottom,
-                           round, spaceBetween, className, children, onClick}) =>
+                           round, spaceBetween, className, children, onClick, red, blue, green, orange, yellow}) =>
   <div className={className} style={[
     flexStyle.base,
     column && flexStyle.flexDirectionColumn,
@@ -74,6 +75,11 @@ const FlexBox = enhance(({style, column, centered, left, right, wrap, item, flex
     marginBottom && flexStyle.marginBottom,
     round && flexStyle.round,
     spaceBetween && flexStyle.spaceBetween,
+    red && redBox,
+    blue && blueBox,
+    green && greenBox,
+    orange && orangeBox,
+    yellow && yellowBox,
     style
   ]}
        onClick={onClick}

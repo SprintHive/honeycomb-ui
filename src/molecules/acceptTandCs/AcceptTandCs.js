@@ -1,9 +1,3 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -16,8 +10,8 @@ const enhance = compose(
   withProps(() => {
     return {
       propertyName: "termsAndConditionsAccepted",
-      entityName: "lead",
-      entityIdName: "leadId"
+      entityName: "application",
+      entityIdName: "applicationId"
     }
   }),
 );

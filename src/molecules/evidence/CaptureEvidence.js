@@ -1,9 +1,3 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -16,16 +10,16 @@ import AnalysingSpinner from "../upload/AnalysingSpinner";
 import UploadProgressSpinner from "../upload/UploadProgressSpinner";
 
 
-const uploadInProgress = ({componentKey, idv}) => idv[componentKey].status === "Uploading";
+const uploadInProgress = ({componentKey, identityVerification}) => identityVerification[componentKey].status === "Uploading";
 const showUploadInProgress = ({uploadProgress}) => <UploadProgressSpinner {...{uploadProgress}}/>;
 
-const busy = ({componentKey, idv}) => idv[componentKey].status === "InProgress";
+const busy = ({componentKey, identityVerification}) => identityVerification[componentKey].status === "InProgress";
 const showSpinner = () => <AnalysingSpinner/>;
 
 const enhance = compose(
   setDisplayName("CaptureEvidence"),
   setPropTypes({
-    idvId: PropTypes.string.isRequired,
+    identityVerificationId: PropTypes.string.isRequired,
     dispatch: PropTypes.func,
     done: PropTypes.func,
     componentKey: PropTypes.string,
@@ -41,7 +35,7 @@ const enhance = compose(
       props.updateBase64ImageStr(undefined);
     },
     acceptImage: props => () => {
-      const {endpoint, done, idvId, imageBase64Str, componentKey, componentData, updateUploadProgress, dispatch} = props;
+      const {endpoint, done, identityVerificationId, imageBase64Str, componentKey, componentData, updateUploadProgress, dispatch} = props;
       const data = new FormData();
       const blob = dataURItoBlob(imageBase64Str);
       data.append("file", blob);
@@ -51,7 +45,7 @@ const enhance = compose(
         Object.keys(componentData).forEach(key => data.append(key, componentData[key]));
       }
 
-      dispatch(evidenceCaptured({entityId: idvId, entityKey: "idv", endpoint, data, componentKey, updateUploadProgress}));
+      dispatch(evidenceCaptured({entityId: identityVerificationId, entityKey: "identityVerification", endpoint, data, componentKey, updateUploadProgress}));
       done && done();
     },
   }),

@@ -1,14 +1,7 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
-import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {compose, lifecycle, onlyUpdateForKeys, setDisplayName, withHandlers, withProps, withReducer} from "recompose";
+import {compose, onlyUpdateForKeys, setDisplayName, withHandlers, withProps} from "recompose";
 import FlexBox from "../../layout/FlexBox";
 import AddressCard from "./AddressCard";
 import {inputStyle} from "../../atoms/simpleInput/SimpleInput";
@@ -52,15 +45,14 @@ function formatAddress(address) {
 
 const populateInitialValue = compose(
   withProps(props => {
-    if (props.lead && props.lead.address && !props.searchAddressInProgress) {
-      const initialValue = formatAddress(props.lead.address);
+    if (props.application && props.application.address && !props.searchAddressInProgress) {
+      const initialValue = formatAddress(props.application.address);
       return {initialValue};
     } else {
       return {initialValue: ""}
     }
   })
 );
-
 
 const enhance = compose(
   setDisplayName("AddressInput"),
@@ -69,8 +61,8 @@ const enhance = compose(
   populateInitialValue,
   withHandlers({
     onChange: props => e => {
-      const {componentStatusChanged, lead, endpoint, dispatch} = props;
-      dispatch(addressSearchChanged({leadId: lead.leadId, searchStr: e.target.value, endpoint}));
+      const {componentStatusChanged, application, endpoint, dispatch} = props;
+      dispatch(addressSearchChanged({applicationId: application.applicationId, searchStr: e.target.value, endpoint}));
       componentStatusChanged && componentStatusChanged(undefined);
     },
     done: props => () => {
@@ -78,9 +70,9 @@ const enhance = compose(
       componentStatusChanged && componentStatusChanged("captured");
 
     },
-    addressSelected: props => ({leadId, placeId}) => {
-      const {dispatch, endpoint, leadEndpoint} = props;
-      dispatch(addressSelected({leadId, endpoint, leadEndpoint, placeId}));
+    addressSelected: props => ({applicationId, placeId}) => {
+      const {dispatch, endpoint, originationEndpoint} = props;
+      dispatch(addressSelected({applicationId, endpoint, originationEndpoint, placeId}));
     }
   }),
   onlyUpdateForKeys(["searchStr", "suggestions", "initialValue"]),
@@ -89,12 +81,12 @@ const enhance = compose(
 );
 
 const Suggestions = (props) => {
-  const {lead, addressSelected} = props;
+  const {application, addressSelected} = props;
   const suggestions = props.suggestions || [];
-  const leadId = lead.leadId;
+  const applicationId = application.applicationId;
 
   const addressCards = suggestions.map(({id, placeId, description}) =>
-    <AddressCard key={id} {...{id, leadId, placeId, description, done: addressSelected}} />);
+    <AddressCard key={id} {...{id, applicationId, placeId, description, done: addressSelected}} />);
 
   return (
     <FlexBox column centered>

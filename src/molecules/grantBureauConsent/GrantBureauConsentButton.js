@@ -1,9 +1,3 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -17,16 +11,17 @@ const enhance = compose(
   setDisplayName("GrantBureauConsentButton"),
   setPropTypes({
     endpoint: PropTypes.string.isRequired,
-    leadId: PropTypes.string.isRequired,
+    applicationId: PropTypes.string.isRequired,
   }),
   connect(),
   withHandlers({
     grantBureauPermission: props => () => {
-      const {dispatch, endpoint, leadId} = props;
+      const {dispatch, endpoint, applicationId, authToken, productId} = props;
       dispatch(propertyChanged({
-        entityId: leadId,
-        entityName: "lead", propertyName: "lookupConsentGiven",
-        endpoint, newValue: true, oldValue: false
+        entityId: applicationId,
+        entityName: "application",
+        propertyName: "lookupConsentGiven",
+        endpoint, newValue: true, oldValue: false, authToken, productId
       }));
     }
   })

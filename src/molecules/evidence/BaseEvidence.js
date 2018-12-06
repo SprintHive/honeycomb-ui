@@ -1,31 +1,24 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
-
 import React from "react";
 import PropTypes from "prop-types";
-import {compose, setDisplayName, setPropTypes, withHandlers} from "recompose";
-import {connect} from "react-redux";
+import {compose, setDisplayName, setPropTypes, withHandlers, withProps} from "recompose";
 import {stepComponentStatusChanged} from "../propertyInput/PropertyInput";
 import {nonOptimalStates} from "../../hoc/nonOptimalStates";
 import SuccessMessage from "../upload/SuccessMessage";
+import {mobileAndTabletCheck} from "../../lib/detectmobilebrowser";
 
-const evidenceCaptured = ({componentKey, idv}) =>
-  idv[componentKey].status === "Captured" || idv.status.key === "VERIFICATION_PASSED";
+const evidenceCaptured = ({componentKey, identityVerification}) =>
+  identityVerification[componentKey].status === "Captured" || identityVerification.status.key === "VERIFICATION_PASSED";
 const showSuccessMessage = ({wizardStepStatusDispatcher, stepKey, componentKey, successMessage: message}) =>
   <SuccessMessage{...{stepKey, componentKey, wizardStepStatusDispatcher, message}}/>;
 
-const thereAreErrors = ({componentKey, idv}) => idv[componentKey].status === "Failed";
+const thereAreErrors = ({componentKey, identityVerification}) => identityVerification[componentKey].status === "Failed";
 const showErrors = ({renderErrors, ...props}) => renderErrors(props);
 
 const enhance = compose(
   setDisplayName("BaseEvidenceContainer"),
   setPropTypes({
-    lead: PropTypes.object.isRequired,
-    idv: PropTypes.object.isRequired,
+    application: PropTypes.object.isRequired,
+    identityVerification: PropTypes.object.isRequired,
     renderUploadEvidence: PropTypes.func.isRequired,
     renderCaptureEvidence: PropTypes.func.isRequired,
     renderErrors: PropTypes.func.isRequired,
@@ -34,7 +27,7 @@ const enhance = compose(
     componentKey: PropTypes.string.isRequired,
     successMessage: PropTypes.string.isRequired
   }),
-  connect(state => ({isMobile: state.isMobile})),
+  withProps({isMobile: mobileAndTabletCheck()}),
   withHandlers({
     done: props => () => {
       const {dispatch, stepKey, componentKey} = props;

@@ -1,9 +1,3 @@
-/**
- * Copyright (c) 2018 SprintHive (Pty) Ltd (buzz@sprinthive.com)
- *
- * This source code is licensed under the Apache License, Version 2.0
- * found in the LICENSE file in the root directory of this source tree.
- */
 
 import React from "react";
 import PropTypes from "prop-types";
@@ -27,7 +21,7 @@ const displayErrors = props => <DisplayErrorWithTryAgain {...props}/>;
 const enhance = compose(
   setDisplayName("UploadEvidence"),
   setPropTypes({
-    idvId: PropTypes.string.isRequired,
+    identityVerificationId: PropTypes.string.isRequired,
     componentKey: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     errorMessage: PropTypes.string,
@@ -39,13 +33,13 @@ const enhance = compose(
       if (event.target.files.length === 1
         && event.target.files[0].type.indexOf("image/") === 0) {
 
-        const {dispatch, idvId, componentKey, updateUploadProgress, componentData, endpoint} = props;
+        const {dispatch, identityVerificationId, componentKey, updateUploadProgress, componentData, endpoint} = props;
         const data = new FormData();
         data.append("file", event.target.files[0]);
         if (componentData) {
           Object.keys(componentData).forEach(key => data.append(key, componentData[key]));
         }
-        dispatch(evidenceCaptured({entityId: idvId , entityKey: "idv", data, endpoint, componentKey, updateUploadProgress}));
+        dispatch(evidenceCaptured({entityId: identityVerificationId , entityKey: "identityVerification", data, endpoint, componentKey, updateUploadProgress}));
       }
     }
   }),

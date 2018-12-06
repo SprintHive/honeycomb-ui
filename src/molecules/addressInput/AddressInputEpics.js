@@ -48,7 +48,7 @@ export function addressSelected(action$) {
       const {leadId, placeId, endpoint, leadEndpoint} = action.payload;
       return Observable.fromPromise(
         axios.post(`${endpoint}/address/getPlace`, {placeId}))
-        .map((res) => propertyChanged({entityId: leadId, entityName: "lead", propertyName: "address",
+        .map((res) => propertyChanged({entityId: leadId, entityName: "application", propertyName: "address",
           endpoint: leadEndpoint, newValue: res.data.address}))
         .catch((e) => {
           const message = "Something went wrong trying to get Place";
