@@ -35,7 +35,8 @@ const enhance = compose(
       props.updateBase64ImageStr(undefined);
     },
     acceptImage: props => () => {
-      const {endpoint, done, identityVerificationId, imageBase64Str, componentKey, componentData, updateUploadProgress, dispatch} = props;
+      const {endpoint, authToken, done, identityVerificationId, imageBase64Str, componentKey, componentData,
+        updateUploadProgress, dispatch} = props;
       const data = new FormData();
       const blob = dataURItoBlob(imageBase64Str);
       data.append("file", blob);
@@ -45,7 +46,9 @@ const enhance = compose(
         Object.keys(componentData).forEach(key => data.append(key, componentData[key]));
       }
 
-      dispatch(evidenceCaptured({entityId: identityVerificationId, entityKey: "identityVerification", endpoint, data, componentKey, updateUploadProgress}));
+      dispatch(evidenceCaptured({entityId: identityVerificationId, entityKey: "identityVerification", endpoint,
+        authToken, data, componentKey, updateUploadProgress}));
+
       done && done();
     },
   }),

@@ -15,10 +15,10 @@ const enhance = compose(
     proofOfIdentityType: PropTypes.oneOf(["drivers-license-reverse", "id-card-front", "id-book"])
   }),
   mapProps(props => {
-    const {identityVerification, componentKey, proofOfIdentityType, children, dispatch, endpoint} = props;
+    const {identityVerification, componentKey, proofOfIdentityType, children, dispatch, endpoint, authToken} = props;
     const componentData = {typeCode: proofOfIdentityType};
-    const _props = {identityVerificationId: identityVerification.identityVerificationId, componentKey, children, dispatch, componentData, endpoint,
-      proofOfIdentityType};
+    const _props = {identityVerificationId: identityVerification.identityVerificationId, componentKey, children,
+      dispatch, componentData, endpoint, authToken, proofOfIdentityType};
     const {status, errorCode} = identityVerification[componentKey];
     _props.idvStatus = identityVerification.status.key;
     _props.status = status;

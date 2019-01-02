@@ -32,14 +32,15 @@ const enhance = compose(
     onChange: props => event => {
       if (event.target.files.length === 1
         && event.target.files[0].type.indexOf("image/") === 0) {
-
-        const {dispatch, identityVerificationId, componentKey, updateUploadProgress, componentData, endpoint} = props;
+        const {dispatch, identityVerificationId, componentKey, updateUploadProgress, componentData, endpoint,
+          authToken} = props;
         const data = new FormData();
         data.append("file", event.target.files[0]);
         if (componentData) {
           Object.keys(componentData).forEach(key => data.append(key, componentData[key]));
         }
-        dispatch(evidenceCaptured({entityId: identityVerificationId , entityKey: "identityVerification", data, endpoint, componentKey, updateUploadProgress}));
+        dispatch(evidenceCaptured({entityId: identityVerificationId , entityKey: "identityVerification", data, endpoint,
+          authToken, componentKey, updateUploadProgress}));
       }
     }
   }),

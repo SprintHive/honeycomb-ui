@@ -16,7 +16,7 @@ export function evidenceCaptured(action$) {
   return action$.ofType(EVIDENCE_CAPTURED)
     .switchMap(action => {
       console.log(`Processing action ${action.type}`, JSON.stringify(action.payload, null, 2));
-      const {entityKey, entityId, componentKey, data, updateUploadProgress, endpoint} = action.payload;
+      const {entityKey, entityId, componentKey, data, updateUploadProgress, endpoint, authToken} = action.payload;
       let idType;
       switch (componentKey) {
         case "trustedSourceHeadshot":
@@ -51,6 +51,10 @@ export function evidenceCaptured(action$) {
           }
         }
       };
+
+      if (authToken) {
+        config.headers = {Authorization: `Bearer ${authToken}`};
+      }
 
       axios.post(`${endpoint}/identityVerification/${entityId}/${idType}`, data, config)
         .catch(e => {
